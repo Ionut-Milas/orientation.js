@@ -1,30 +1,40 @@
-(function () {
-  var windowHeight = 0;
-  var windowWidth = 0;
+var Orientation = (function() {
+
+  var data = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+
+  function broadcast() {
+    console.log("broadcast ", data);
+  }
 
   function fetchWindowDimensions() {
-    windowHeight = window.innerHeight;
-    windowWidth = window.innerWidth;
+    data.height = window.innerHeight;
+    data.width = window.innerWidth;
   }
 
   function determineMode() {
     fetchWindowDimensions();
-    data = {
-      width: windowWidth,
-      height: windowHeight,
-    };
-    if (windowHeight > windowWidth) {
+    if (window.innerHeight > window.innerWidth) {
       data.isPortrait = true;
     } else {
       data.isPortrait = false;
     }
-
-    return data;
+    broadcast();
   }
 
   console.log(determineMode());
 
-  window.onresize = function (event) {
-    console.log(determineMode());
+  window.onresize = function(event) {
+    determineMode();
   };
+
+  return {
+    data: data,
+    width: data.width,
+    height: data.height,
+    isPortrait: data.isPortrait
+  };
+
 })();
