@@ -6,7 +6,10 @@ var Orientation = (function() {
   };
 
   function broadcast() {
-    console.log("broadcast ", data);
+    var resizeEvent = new CustomEvent('resizeOccured', {
+      detail: data
+    });
+    window.dispatchEvent(resizeEvent);
   }
 
   function fetchWindowDimensions() {
@@ -23,8 +26,8 @@ var Orientation = (function() {
     }
     broadcast();
   }
-
-  console.log(determineMode());
+  // Trigger a broadcast on page load.
+  determineMode();
 
   window.onresize = function(event) {
     determineMode();
